@@ -7,7 +7,7 @@ import (
 )
 
 func main(){
-	db, err := gorm.Open(mysql.Open("root:root@tcp(127.0.0.1:3306)/test1?charset=utf8mb4&paserTime=True&loc=Local"), &gorm.Config())
+	db, err := gorm.Open(mysql.Open("root:root@tcp(127.0.0.1:3306)/test1?charset=utf8mb4&pasreTime=True&loc=Local"), &gorm.Config{})
 	if err != nil{
 		panic("failed to connect database")
 	}
@@ -20,7 +20,7 @@ func main(){
 
 	fmt.Println(db.First(user, 1))
 
-	db.Model(user).update("Price", 200)
-	db.Model(user).update("PassWord", 1234)
+	db.Model(user).Update("Price", 200)
+	db.Model(user).Update("PassWord", 1234)
 
 }
