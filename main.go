@@ -10,5 +10,5 @@ func main(){
 	utils.InitConfig()
 	utils.InitMySQL()
 	r := routers.Router()
-	r.Run()
+	r.Run("8082")
 }

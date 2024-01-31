@@ -5,7 +5,6 @@ import (
 	"gin-practice/utils"
 	"time"
 
-	"golang.org/x/text/unicode/rangetable"
 	"gorm.io/gorm"
 )
 
@@ -37,4 +36,8 @@ func GetUserList() []*UserBasic{
 		fmt.Println(v)
 	}
 	return data
+}
+
+func CreateUser(user UserBasic) *gorm.DB{
+	return utils.DB.Create(&user)
 }

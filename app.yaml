@@ -1,2 +1,2 @@
 mysql:
-  dns：root:root@tcp(127.0.0.1:3306)/test1?charset=utf8mb4&pasreTime=True&loc=Local
+  dns：root:root@tcp(127.0.0.1:3306)/test1?charset=utf8mb4&parsreTime=True&loc=Local
