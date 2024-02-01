@@ -3,6 +3,7 @@ module gin-practice
 go 1.21.6
 
 require (
+	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2
 	github.com/gin-gonic/gin v1.9.1
 	github.com/spf13/viper v1.18.2
 	github.com/swaggo/files v1.0.1

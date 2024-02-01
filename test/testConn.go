@@ -20,7 +20,7 @@ func main(){
 
 	fmt.Println(db.First(user, 1))
 
-	db.Model(user).Update("Price", 200)
-	db.Model(user).Update("PassWord", 1234)
+	db.Model(user).Update("phone", 123456789)
+	db.Model(user).Update("password", 1234)
 
 }
