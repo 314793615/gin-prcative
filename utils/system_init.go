@@ -7,12 +7,17 @@ import (
 	"os"
 	"time"
 
+	"github.com/go-redis/redis"
+	"github.com/go-redis/redis/v8"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
-var DB *gorm.DB
+var (
+	DB *gorm.DB
+	Redis *redis.Client
+)
 
 func InitConfig(){
 	viper.SetConfigName("app")
@@ -38,4 +43,42 @@ func InitMySQL()  {
 	)
 	DB, _ = gorm.Open(mysql.Open(viper.GetString("mysql.dns")), &gorm.Config{})
 	newLogger.Info(context.Background(), "mysql has been inited ....")
+}
+
+func InitRedis(){
+	Redis = redis.NewClient(&redis.Options{
+		Addr: viper.GetString("redis.addr"),
+		Password: viper.GetString("redis.password"),
+		DB: viper.GetInt("redis.DB"),
+		PoolSize: viper.GetInt("redis.poolSize"),
+		MinIdleConns: viper.GetInt("redis.minIdleConn"),
+	})
+	pong, err := Redis.Ping().Result()
+	if err!= nil{
+		fmt.Println("redis init error: %v+", err)
+	}else{
+		fmt.Println("redis inited success: %v+", pong)
+	}
+
+}
+
+const(
+	PublishKey = "websocket"
+)
+
+func Publish(ctx context.Context, channel string, msg string) error {
+	var err error
+	err = Redis.Publish(ctx, channel, msg).Err()
+	return err
+}
+
+func Subscribe(ctx context.Context, channel string)(string, error){
+	sub := Redis.PSubscribe(ctx, channel)
+	fmt.Println("Subscribe ....", sub)
+	msg, err := sub.ReceiveMessage(ctx)
+	return msg.Payload, err
+}
+
+func GetDB() *gorm.DB{
+	return DB
 }
